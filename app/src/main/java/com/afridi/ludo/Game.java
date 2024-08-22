@@ -272,7 +272,7 @@ public class Game extends Activity implements View.OnClickListener {
 
         RelativeLayout.LayoutParams mP = (RelativeLayout.LayoutParams) v1.getLayoutParams();
         ////////////////////////////////////////////////
-        public void handleImageViewClick(ImageView v1) {
+        public static void handleImageViewClick(ImageView v1) {
             int viewId = v1.getId();
             RelativeLayout.LayoutParams mP = (RelativeLayout.LayoutParams) v1.getLayoutParams();
 
@@ -557,7 +557,7 @@ public class Game extends Activity implements View.OnClickListener {
                         updateClickableState();
                     }
 
-// Define the updateClickableState() method
+
                     private void updateClickableState() {
                     // Logic to update the clickable state of UI elements based on the game state
                     // For example:
@@ -570,33 +570,48 @@ public class Game extends Activity implements View.OnClickListener {
                 break;
 
                 default:
-                    // Handle other cases or do nothing
                     break;
             }
         }
 
 // Method to update the clickable state of pieces
         private void updateClickableState() {
-            updateClickableForPiece(red1, x1, 51);
-            updateClickableForPiece(red2, x2, 51);
-            updateClickableForPiece(red3, x3, 51);
-            updateClickableForPiece(red4, x4, 51);
+            int offset = 51;
 
-            updateClickableForPiece(green1, x5, 51);
-            updateClickableForPiece(green2, x6, 51);
-            updateClickableForPiece(green3, x7, 51);
-            updateClickableForPiece(green4, x8, 51);
+            updateClickableForPiece(red1, x1, offset);
+            updateClickableForPiece(red2, x2, offset);
+            updateClickableForPiece(red3, x3, offset);
+            updateClickableForPiece(red4, x4, offset);
 
-            updateClickableForPiece(blue1, x9, 51);
-            updateClickableForPiece(blue2, x10, 51);
-            updateClickableForPiece(blue3, x11, 51);
-            updateClickableForPiece(blue4, x12, 51);
+            updateClickableForPiece(green1, x5, offset);
+            updateClickableForPiece(green2, x6, offset);
+            updateClickableForPiece(green3, x7, offset);
+            updateClickableForPiece(green4, x8, offset);
 
-            updateClickableForPiece(yellow1, x13, 51);
-            updateClickableForPiece(yellow2, x14, 51);
-            updateClickableForPiece(yellow3, x15, 51);
-            updateClickableForPiece(yellow4, x16, 51);
+            updateClickableForPiece(blue1, x9, offset);
+            updateClickableForPiece(blue2, x10, offset);
+            updateClickableForPiece(blue3, x11, offset);
+            updateClickableForPiece(blue4, x12, offset);
+
+            updateClickableForPiece(yellow1, x13, offset);
+            updateClickableForPiece(yellow2, x14, offset);
+            updateClickableForPiece(yellow3, x15, offset);
+            updateClickableForPiece(yellow4, x16, offset);
         }
+
+// Helper method to update the clickable state for a single piece
+        private void updateClickableForPiece(View piece, int position, int offset) {
+            // Calculate the position relative to the offset
+            int relativePosition = position - offset;
+
+            // Determine if the piece should be clickable based on the game logic
+            if (piece.getVisibility() == View.VISIBLE && relativePosition > 0) {
+                piece.setClickable(true);
+            } else {
+                piece.setClickable(false);
+            }
+        }
+
 
 
                     if (red1.getVisibility()==View.INVISIBLE && red2.getVisibility()==View.INVISIBLE &&
@@ -626,6 +641,27 @@ public class Game extends Activity implements View.OnClickListener {
             startActivity(in);
         }
     }
+
+    private void updateClickableState() {
+        View[] redPieces = {red1, red2, red3, red4};
+        int[] positions = {n1, n2, n3, n4};
+        int[] diceResults = {r1, r2, r3, r4};
+
+        for (int i = 0; i < redPieces.length; i++) {
+            View piece = redPieces[i];
+            int position = positions[i];
+            int diceResult = diceResults[i];
+
+            // Check if the piece is visible and in a valid position
+            if (piece.getVisibility() == View.VISIBLE && diceResult == 1) {
+                piece.setClickable(true);
+            } else {
+                piece.setClickable(false);
+            }
+        }
+    }
+
+
 
     private void updateClickableForPiece(ImageView yellow4, int x16, int i) {
     }
